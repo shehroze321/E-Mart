@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const conversationSchema = new mongoose.Schema(
   {
-    groupTitle:{
-        type: String,
+    groupTitle: {
+      type: String,
+      unique: true,
     },
     members: {
       type: Array,

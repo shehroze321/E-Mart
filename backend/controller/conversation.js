@@ -12,27 +12,29 @@ router.post(
     try {
       const { groupTitle, userId, sellerId } = req.body;
 
-      const isConversationExist = await Conversation.findOne({ groupTitle });
-
-      if (isConversationExist) {
-        const conversation = isConversationExist;
-        res.status(201).json({
+      const existingConversation = await Conversation.findOne({
+        groupTitle: { $regex: new RegExp(`^${groupTitle}$`, "i") },
+      });
+      if (existingConversation) {
+        // If the conversation already exists, return it
+        res.status(200).json({
           success: true,
-          conversation,
+          conversation: existingConversation,
         });
       } else {
-        const conversation = await Conversation.create({
+        // If the conversation doesn't exist, create a new one
+        const newConversation = await Conversation.create({
           members: [userId, sellerId],
           groupTitle: groupTitle,
         });
 
         res.status(201).json({
           success: true,
-          conversation,
+          conversation: newConversation,
         });
       }
     } catch (error) {
-      return next(new ErrorHandler(error.response.message), 500);
+      return next(new ErrorHandler(error.message, 500));
     }
   })
 );
@@ -58,7 +60,6 @@ router.get(
     }
   })
 );
-
 
 // get user conversations
 router.get(
