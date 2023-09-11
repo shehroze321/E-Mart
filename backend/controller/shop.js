@@ -40,7 +40,7 @@ router.post(
 
       const activationToken = createActivationToken(seller);
 
-      const activationUrl = `https://e-mart-frontend-axbqx6prg-shehroze321.vercel.app/seller/activation/${activationToken}`;
+      const activationUrl = `https://e-mart-frontend.vercel.app/seller/activation/${activationToken}`;
 
       try {
         await sendMail({
