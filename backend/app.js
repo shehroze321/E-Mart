@@ -7,7 +7,7 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["https://e-mart-frontend.vercel.app"],
     credentials: true,
   })
 );
